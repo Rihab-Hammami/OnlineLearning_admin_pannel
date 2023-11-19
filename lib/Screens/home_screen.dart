@@ -50,7 +50,7 @@ currentScreen(item){
             icon: Icons.dashboard,
           ),
           AdminMenuItem(
-            title: 'Manage Courses',
+            title: 'Manage Course',
             route: ManageCoursesScreen.id,
             icon: Icons.dashboard,
           ),
