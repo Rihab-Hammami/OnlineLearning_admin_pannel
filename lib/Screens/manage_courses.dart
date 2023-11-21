@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Services/firebase_services.dart';
 import '../courses/AddCourses.dart';
-import '../courses/CoursesScreen.dart';
 import '../courses/EditProduct.dart';
 
 class ManageCoursesScreen extends StatefulWidget {
@@ -141,7 +140,16 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditProduct(),
+                    builder: (context) => EditCourse(
+                      id: id,
+                      name: name,
+                      image: images,
+                      price: price.toString(),
+                      description: description,
+                      duration: duration,
+                      session: session,
+                      review: review,
+                    ),
                   ),
                 );
               },
@@ -284,6 +292,26 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 4),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => EditCourse(
+                                              id: document['id'],
+                                              name: document['name'],
+                                              image: document['images'],
+                                              price: document['price'].toString(),
+                                              description: document['description'],
+                                              duration: document['duration'],
+                                              session: document['session'],
+                                              review: document['review'],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Icon(Icons.edit, color: Colors.blue),
+                                    ),
                                   ],
                                 ),
                               ),

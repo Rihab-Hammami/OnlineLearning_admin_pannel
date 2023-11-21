@@ -161,8 +161,10 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditProduct(
-                        
+                      builder: (context) => AddCourse(
+
+
+
                       ),
                     ),
                   );
