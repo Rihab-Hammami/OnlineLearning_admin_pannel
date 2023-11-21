@@ -9,41 +9,49 @@ class DashboardScreen extends StatelessWidget {
   Widget analyticWidget({required String title, required String value}) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
-      child: Container(
-        width: 200,
-        height: 100,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          border: Border.all(color: Colors.blueGrey),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    value,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Icon(Icons.show_chart, color: Colors.white),
-                ],
-              )
-            ],
+      child:Container(
+  width: 200,
+  height: 100,
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        Color(0xFF00B4DB), // #00416A color
+        Color(0xFFC9D6FF), // #E4E5E6 color
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+    border: Border.all(color: Colors.blueGrey),
+    borderRadius: BorderRadius.circular(10),
+  ),
+  child: Padding(
+    padding: const EdgeInsets.all(18.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
-      ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              value,
+              style: TextStyle(color: Colors.white),
+            ),
+            Icon(Icons.show_chart, color: Colors.white),
+          ],
+        )
+      ],
+    ),
+  ),
+),
+
     );
   }
 
