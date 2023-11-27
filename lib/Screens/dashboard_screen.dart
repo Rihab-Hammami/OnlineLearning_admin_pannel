@@ -98,7 +98,7 @@ class DashboardScreen extends StatelessWidget {
           analyticWidget(title: "Total categories",value: "0"),
            analyticWidget(title: "Total courses",value: "0"),
            analyticWidget(title: "Total items",value: "0"),
-           analyticWidget(title: "",value: ""),
+           
 
         ],
       ),

@@ -66,7 +66,7 @@ currentScreen(item){
           AdminMenuItem(
             title: 'Manage Course',
             route: ManageCoursesScreen.id,
-            icon: Icons.dashboard,
+            icon: Icons.book_online_rounded,
           ),
           AdminMenuItem(
             title: 'Manage items',

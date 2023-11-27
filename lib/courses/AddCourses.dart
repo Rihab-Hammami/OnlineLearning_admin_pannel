@@ -1,5 +1,8 @@
 import 'dart:html';
 
+import 'package:elearning_admin_pannel/Screens/home_screen.dart';
+import 'package:elearning_admin_pannel/Screens/manage_items.dart';
+import 'package:elearning_admin_pannel/Screens/side_bar_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,11 +37,13 @@ class _AddCourseState extends State<AddCourse> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController session = TextEditingController();
-  TextEditingController review = TextEditingController();
+  TextEditingController discount = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController duration = TextEditingController();
   DateTime _selecteddate = DateTime.now();
   CollectionReference ref = FirebaseFirestore.instance.collection('courses');
+
+  
   Future<void> addCourse(String downloadUrl) async {
 
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -46,7 +51,7 @@ class _AddCourseState extends State<AddCourse> {
       'name': name.text,
       'description': description.text,
       'session': session.text,
-      'review': review.text,
+      'discount': discount.text,
       'price': price.text,
       'duration': duration.text,
       'images':downloadUrl,
@@ -104,8 +109,9 @@ class _AddCourseState extends State<AddCourse> {
 
   @override
   Widget build(BuildContext context) {
+     SideBarWidget _sideBar = SideBarWidget();
     return
-      Scaffold(
+      AdminScaffold(
         appBar: AppBar(
           title: Center(child: Text("Add Course")),
           backgroundColor: Colors.grey,
@@ -126,6 +132,7 @@ class _AddCourseState extends State<AddCourse> {
           ),),
           
         ),
+    sideBar: _sideBar.sideBarMenus(context, ManageCoursesScreen.id), 
 
         body:  Center(
     child: Container(
@@ -320,6 +327,47 @@ class _AddCourseState extends State<AddCourse> {
                       ],
                     ),
                   ),
+                    Padding(padding: const EdgeInsets.all(8.0),
+                    child:
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Discount',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                       
+              
+                        TextFormField(
+                          controller: price,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          ],
+                          decoration: InputDecoration(
+                            hintText: 'Discount',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 14,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          
+                        )
+              
+              
+                      ],
+                    ),
+                  ),
                   Padding(padding: const EdgeInsets.all(8.0),
                     child:
                     Column(
@@ -340,7 +388,7 @@ class _AddCourseState extends State<AddCourse> {
                             hintStyle: TextStyle(
                               color: Colors.grey[500],
                               fontSize: 14,
-              
+                             
                             ),
                             filled: true, // ajouter un fond rempli de couleur
                             fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
@@ -409,75 +457,27 @@ class _AddCourseState extends State<AddCourse> {
                   SizedBox(height: 18),
                  
               
-                    ElevatedButton(
+                   ElevatedButton(
                       onPressed: () {
-                         _isFormFilled() ? _submitData : null;
-                          if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           // All form fields are valid, proceed with submission
                           _submitData();
                         } else {
                           // Form contains validation errors, do not submit
                           print('Form contains validation errors');
                         }
-                    if (_isFormFilled()) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Confirmation'),
-                          content: Text('Do you really want to submit?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  _isConfirmed = true;
-                                });
-                                _submitData(); // Call _submitData() after confirming
-                              },
-                              child: Text('Submit'),
-                            ),
-                          ],
-                        );
                       },
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Fields Empty'),
-                          content: Text('Please fill in all the required fields.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          _isConfirmed ? Colors.green : CupertinoColors.systemGrey,
-                        ),
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
                       ),
                       child: Text(
-                        _isConfirmed ? "Submit" : "Submit",
+                        "Submit",
                         style: TextStyle(fontSize: 15, color: Colors.white),
                       ),
                     ),
-              
+
+
+
                   SizedBox(height: 12,),
                 ],
               ),
@@ -495,31 +495,42 @@ class _AddCourseState extends State<AddCourse> {
         description.text.isNotEmpty;
     // Add other fields validation here
   }
-void _submitData() {
-  if (_isConfirmed) {
-    addCourse(imgUrl);
-    // Show a success dialog after successful submission
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Addition successful'),
-          content: Text('Your course has been successfully added.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+  void _submitData() {
+  if (_formKey.currentState!.validate()) {
+    addCourse(imgUrl).then((_) {
+      // Show a success dialog after successful submission
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Addition successful'),
+            content: Text('Your course has been successfully added.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ManageCoursesScreen()),
+                  );
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }).catchError((error) {
+      // Handle any errors that occur during submission
+      print('Error occurred: $error');
+    });
   } else {
-    // Handle cancellation or unconfirmed submission
+    // Form contains validation errors, do not submit
+    print('Form contains validation errors');
   }
 }
+
+
 
 
 
