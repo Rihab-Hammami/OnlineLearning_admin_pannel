@@ -39,8 +39,22 @@ currentScreen(item){
     return AdminScaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Center(child: const Text('Online Learning App Dashboard',style: TextStyle(color:Colors.white))),
+        
+         flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF00B4DB), // #00416A color
+                Color(0xFFC9D6FF), // #E4E5E6 color
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: Center(
+        child: const Text('Online Learning App Dashboard',
+        style: TextStyle(color:Colors.white))),
       ),
       sideBar: SideBar(
         items: const [
@@ -52,7 +66,7 @@ currentScreen(item){
           AdminMenuItem(
             title: 'Manage Course',
             route: ManageCoursesScreen.id,
-            icon: Icons.dashboard,
+            icon: Icons.book_online_rounded,
           ),
           AdminMenuItem(
             title: 'Manage items',

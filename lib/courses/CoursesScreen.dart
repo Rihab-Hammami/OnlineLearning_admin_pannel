@@ -8,6 +8,7 @@ import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 
 import '../Services/firebase_services.dart';
 import 'EditCourse.dart';
+
 class CoursesScreen extends StatefulWidget {
   static const String id = 'Coursescreen';
 
@@ -17,7 +18,10 @@ class CoursesScreen extends StatefulWidget {
 }
 
 class _CoursesScreenState extends State<CoursesScreen> {
-
+double width = 0;
+late GestureTapCallback onTap = () {
+    // Add your custom logic here
+  };
   @override
   Widget build(BuildContext context) {
     FirebaseServices _services = FirebaseServices();
@@ -279,16 +283,27 @@ class _CoursesScreenState extends State<CoursesScreen> {
                                         child: Column(
                                           children: [
                                             Expanded(
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(4),
-                                                child: Image.network(
-                                                  (document['images'] as String),
-                                                  width: MediaQuery.of(context).size.width * 0.2,
-                                                  height: 100,
-                                                  fit: BoxFit.cover,
-                                                ),
+                                              child: Container(
+                                                width: width, // Set the desired width for each item
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  color: Colors.grey[200],
 
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: onTap,
+                                                  child: Image.network(
+                                                    (document['images'] as String),
+                                                    width: MediaQuery.of(context).size.width * 0.2,
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  
+                                                ),
+                                                
+                                                
                                               ),
+                                              
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.all(8.0),
@@ -339,5 +354,24 @@ class _CoursesScreenState extends State<CoursesScreen> {
         });
 
   }
+Widget _buildPrice() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(20),
+        
+      ),
+      child: Text(
+        'price',
+   //'${document['price'].toString() }',
+      style:const  TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      ),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,    
+      ),
+    );
+  }
 }
-

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elearning_admin_pannel/Screens/side_bar_widget.dart';
 import 'package:elearning_admin_pannel/courses/CoursesScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,7 +16,7 @@ class EditCourse extends StatefulWidget{
   final String price;
   final String duration;
   final String session;
-  final String review;
+  final String discount;
   final String description;
 
   EditCourse({
@@ -25,7 +26,7 @@ class EditCourse extends StatefulWidget{
     required this.price,
     required this.duration,
     required this.session,
-    required this.review,
+    required this.discount,
     required this.description,
   });
 
@@ -56,7 +57,7 @@ class _EditCourseState extends State<EditCourse> {
     description = TextEditingController(text: widget.description);
     _imageController= TextEditingController(text: widget.image) ;
     session = TextEditingController(text: widget.session);
-    review = TextEditingController(text: widget.review.toString());
+    review = TextEditingController(text: widget.discount.toString());
     duration = TextEditingController(text: widget.duration.toString()) ;
     _reference = FirebaseFirestore.instance.collection('courses').doc(widget.id);
 
@@ -120,12 +121,14 @@ class _EditCourseState extends State<EditCourse> {
 
   @override
   Widget build(BuildContext context) {
+    SideBarWidget _sideBar = SideBarWidget();
     return AdminScaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor:Colors.blueAccent,
-          title: const Text('Dashboard',style: TextStyle(color:Colors.white,),),
+          title: Center(child: const Text('Edit Course',style: TextStyle(color:Colors.white,),)),
         ),
+        sideBar: _sideBar.sideBarMenus(context, ManageCoursesScreen.id),
         body: Center(
           child: Container(
             width: 700,
@@ -185,7 +188,7 @@ class _EditCourseState extends State<EditCourse> {
                             ),
                           ),
                         ),
-                        //SizedBox(height: 8),
+
                         TextFormField(
                           controller: name,
                           decoration: InputDecoration(
@@ -204,7 +207,8 @@ class _EditCourseState extends State<EditCourse> {
                           ),
                         ),
 
-                        SizedBox(height: 8),
+                        SizedBox(
+                            height: 8),
                         Container(
 
                           width: 600,
@@ -351,11 +355,18 @@ class _EditCourseState extends State<EditCourse> {
                             _reference.update(dataToUpdate);
                             // }
                             await _showSuccessAlert();
-
-                            Navigator.pushReplacement(
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ManageCoursesScreen();
+                                },
+                              ),
+                            );
+                            /* Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => ManageCoursesScreen()),
-                            );
+                            );*/
                           },
                           child: Text('Modifier'),
                           style: ElevatedButton.styleFrom(),
