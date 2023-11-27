@@ -343,7 +343,7 @@ class _AddCourseState extends State<AddCourse> {
                        
               
                         TextFormField(
-                          controller: price,
+                          controller: discount,
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),

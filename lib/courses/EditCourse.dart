@@ -40,7 +40,7 @@ class _EditCourseState extends State<EditCourse> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController session = TextEditingController();
-  TextEditingController review = TextEditingController();
+  TextEditingController discount = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController duration = TextEditingController();
   late TextEditingController _imageController;
@@ -57,7 +57,7 @@ class _EditCourseState extends State<EditCourse> {
     description = TextEditingController(text: widget.description);
     _imageController= TextEditingController(text: widget.image) ;
     session = TextEditingController(text: widget.session);
-    review = TextEditingController(text: widget.discount.toString());
+    discount = TextEditingController(text: widget.discount.toString());
     duration = TextEditingController(text: widget.duration.toString()) ;
     _reference = FirebaseFirestore.instance.collection('courses').doc(widget.id);
 
@@ -268,6 +268,36 @@ class _EditCourseState extends State<EditCourse> {
                             ),
                           ),
                         ),
+                         SizedBox(height: 8),
+                        Container(
+
+                          width: 600,
+                          child:const Text(
+                            'Discount',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        TextFormField(
+                          controller: discount,
+                          decoration: InputDecoration(
+                            hintText: 'Discount',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 14,
+
+                            ),
+                            filled: true, // ajouter un fond rempli de couleur
+                            fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
+                            border: OutlineInputBorder( // définir une bordure de rectangle
+                              borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
+                              borderSide: BorderSide.none, // supprimer la bordure de ligne
+                            ),
+                          ),
+                        ),
+
                         SizedBox(height: 8),
 
                         Container(
@@ -336,6 +366,8 @@ class _EditCourseState extends State<EditCourse> {
                           onPressed: () async {
                             String Name = name.text;
                             String Price = price.text;
+                            String Discount = discount.text;
+
                             String Description = description.text;
                             //String image = _imageController.text;
                             String Session = session.text;
@@ -348,6 +380,7 @@ class _EditCourseState extends State<EditCourse> {
                               'description': Description,
                               'imageUrl': imageUrl,
                               'price': Price,
+                              'discount': Discount,
                               'session': Session,
                               'duration': Duration,
                             };

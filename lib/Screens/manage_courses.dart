@@ -21,7 +21,7 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
   }
   void _showCoursesDetails(
       String id, String name, String images, double price, String duration,
-      String session, String discount, String description) {
+      String session, double discount, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -57,6 +57,25 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                     Expanded(
                       child: Text(
                          '${price.toString()} \Dt  ',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Discount: ',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                         '${discount.toString()} \%  ',
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -141,7 +160,7 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                       description: description,
                       duration: duration,
                       session: session,
-                      discount: discount,
+                      discount: discount.toString(),
                     ),
                   ),
                 );
@@ -244,7 +263,7 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                                  double.parse(document['price']),
                                  document['duration'],
                                  document['session'],
-                                 document['review'],
+                                 double.parse(document['discount']),
                                  document['description'],
                                );
                            },
@@ -319,7 +338,7 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                                                description: document['description'],
                                                duration: document['duration'],
                                                session: document['session'],
-                                               discount: document['discount'],
+                                               discount: document['discount'].toString(),
                                              ),),
                                     );
                                  }, icon: Icon(Icons.edit,
