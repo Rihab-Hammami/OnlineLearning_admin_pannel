@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Services/firebase_services.dart';
 import '../courses/AddCourses.dart';
-import '../courses/EditProduct.dart';
+import '../courses/EditCourse.dart';
 
 class ManageCoursesScreen extends StatefulWidget {
   static const String id = "manage_courses_screen";
@@ -12,6 +12,11 @@ class ManageCoursesScreen extends StatefulWidget {
 }
 
 class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
+  final CollectionReference courses =
+  FirebaseFirestore.instance.collection('courses');
+  void deleteCourses(docId) {
+    courses.doc(docId).delete();
+  }
   void _showCoursesDetails(
       String id, String name, String images, double price, String duration,
       String session, String review, String description) {
@@ -311,6 +316,37 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                                         );
                                       },
                                       child: Icon(Icons.edit, color: Colors.blue),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Confirm deletion"),
+                                              content: Text("Are you sure you want to delete this course?"),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: Text("Cancel"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text("delete",),
+                                                  onPressed: () {
+                                                    deleteCourses(document.id);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                      iconSize: 30,
+                                      color: Colors.red,
                                     ),
                                   ],
                                 ),

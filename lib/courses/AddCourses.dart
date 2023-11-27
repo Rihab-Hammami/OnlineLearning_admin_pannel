@@ -32,6 +32,7 @@ class _AddCourseState extends State<AddCourse> {
   TextEditingController review = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController duration = TextEditingController();
+  TextEditingController discount = TextEditingController();
   DateTime _selecteddate = DateTime.now();
   CollectionReference ref = FirebaseFirestore.instance.collection('courses');
   Future<void> addCourse(String downloadUrl) async {
@@ -44,8 +45,8 @@ class _AddCourseState extends State<AddCourse> {
       'review': review.text,
       'price': price.text,
       'duration': duration.text,
+      'discount': discount.text,
       'images':downloadUrl,
-
       'timestamp': FieldValue.serverTimestamp(),
       'TeacherID': currentUser?.uid,
       'favourites':[],
@@ -304,6 +305,45 @@ class _AddCourseState extends State<AddCourse> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter the price !';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(padding: const EdgeInsets.all(8.0),
+                  child:
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'discount',
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      TextFormField(
+                        controller: discount,
+                        decoration: InputDecoration(
+                          hintText: 'discount',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[500],
+                            fontSize: 14,
+
+                          ),
+                          filled: true, // ajouter un fond rempli de couleur
+                          fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
+                          border: OutlineInputBorder( // définir une bordure de rectangle
+                            borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
+                            borderSide: BorderSide.none, // supprimer la bordure de ligne
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the discount !';
                           }
                           return null;
                         },

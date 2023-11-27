@@ -1,5 +1,3 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, unnecessary_string_interpolations
-
 import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 
 import '../Services/firebase_services.dart';
-import 'EditProduct.dart';
-
+import 'EditCourse.dart';
 class CoursesScreen extends StatefulWidget {
   static const String id = 'Coursescreen';
 
