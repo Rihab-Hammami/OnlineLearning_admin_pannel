@@ -17,6 +17,7 @@ class EditCourse extends StatefulWidget{
   final String duration;
   final String session;
   final String discount;
+  final String category;
   final String description;
 
   EditCourse({
@@ -27,6 +28,7 @@ class EditCourse extends StatefulWidget{
     required this.duration,
     required this.session,
     required this.discount,
+    required this.category,
     required this.description,
   });
 
@@ -40,24 +42,25 @@ class _EditCourseState extends State<EditCourse> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController session = TextEditingController();
-  TextEditingController review = TextEditingController();
+  TextEditingController discount = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController duration = TextEditingController();
   late TextEditingController _imageController;
-
+  String  selectedCategorie="";
   String imageUrl = '';
   Uint8List? _imageBytes;
   GlobalKey<FormState> _key = GlobalKey();
   late DocumentReference _reference;
   @override
   void initState() {
+    selectedCategorie= widget.category;
     imageUrl = widget.image;
     name = TextEditingController(text: widget.name);
     price = TextEditingController(text: widget.price.toString());
     description = TextEditingController(text: widget.description);
     _imageController= TextEditingController(text: widget.image) ;
     session = TextEditingController(text: widget.session);
-    review = TextEditingController(text: widget.discount.toString());
+    discount = TextEditingController(text: widget.discount.toString());
     duration = TextEditingController(text: widget.duration.toString()) ;
     _reference = FirebaseFirestore.instance.collection('courses').doc(widget.id);
 
@@ -268,6 +271,36 @@ class _EditCourseState extends State<EditCourse> {
                             ),
                           ),
                         ),
+                         SizedBox(height: 8),
+                        Container(
+
+                          width: 600,
+                          child:const Text(
+                            'Discount',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        TextFormField(
+                          controller: discount,
+                          decoration: InputDecoration(
+                            hintText: 'Discount',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 14,
+
+                            ),
+                            filled: true, // ajouter un fond rempli de couleur
+                            fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
+                            border: OutlineInputBorder( // définir une bordure de rectangle
+                              borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
+                              borderSide: BorderSide.none, // supprimer la bordure de ligne
+                            ),
+                          ),
+                        ),
+
                         SizedBox(height: 8),
 
                         Container(
@@ -299,6 +332,58 @@ class _EditCourseState extends State<EditCourse> {
                           ),
 
                         ),
+                        Container(
+
+                          width: 600,
+                          child:const Text(
+                            'Catégorie',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 600,
+                          child: StreamBuilder<QuerySnapshot>(
+                            //stream: FirebaseFirestore.instance.collection('categories').snapshots()
+                              stream: FirebaseFirestore.instance.collection('categories').snapshots(),
+                              builder: (context, snapshot) {
+                                List<DropdownMenuItem<String>> categorieItems = [];
+                                if (!snapshot.hasData) {
+                                  return const CircularProgressIndicator();
+                                } else {
+                                  final categories = snapshot.data?.docs.reversed.toList();
+                                  categorieItems.add(
+                                    const DropdownMenuItem(
+                                      value: "0",
+                                      child: Text('Categorie sélectionnée'),
+                                    ),
+                                  );
+                                  for (var category in categories!) {
+                                    categorieItems.add(DropdownMenuItem(
+                                      value: category["libelle"],
+                                      child: Text(
+                                        category['libelle'],
+                                      ),
+                                    ));
+                                  }
+                                }
+                                return DropdownButton(
+                                  items: categorieItems,
+                                  onChanged: (categorieValue) {
+                                    setState(() {
+                                      selectedCategorie = categorieValue as String;
+                                    });
+                                    print(categorieValue);
+                                  },
+                                  value: selectedCategorie,
+                                  isExpanded: false,
+                                );
+                              }
+                          ),
+                        ),
+
                         SizedBox(height: 8),
 
                         Container(
@@ -336,11 +421,13 @@ class _EditCourseState extends State<EditCourse> {
                           onPressed: () async {
                             String Name = name.text;
                             String Price = price.text;
+                            String Discount = discount.text;
+
                             String Description = description.text;
                             //String image = _imageController.text;
                             String Session = session.text;
                             String Duration = duration.text;
-
+                            String category = selectedCategorie;
 
                             // Create the Map of data
                             Map<String, dynamic> dataToUpdate = {
@@ -348,8 +435,10 @@ class _EditCourseState extends State<EditCourse> {
                               'description': Description,
                               'imageUrl': imageUrl,
                               'price': Price,
+                              'discount': Discount,
                               'session': Session,
                               'duration': Duration,
+                              'category': category,
                             };
                             //if (Key.currentState?.validate() ?? false){
                             _reference.update(dataToUpdate);

@@ -21,7 +21,7 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
   }
   void _showCoursesDetails(
       String id, String name, String images, double price, String duration,
-      String session, String discount, String description) {
+      String session, double discount,String category, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -57,6 +57,25 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                     Expanded(
                       child: Text(
                         '${price.toString()} \Dt  ',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Discount: ',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        '${discount.toString()} \%  ',
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -108,6 +127,25 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      'Categorie: ',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        '$category',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       'session : ',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -140,8 +178,9 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                       price: price.toString(),
                       description: description,
                       duration: duration,
+                      category: category,
                       session: session,
-                      discount: discount,
+                      discount: discount.toString(),
                     ),
                   ),
                 );
@@ -244,7 +283,8 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                                 double.parse(document['price']),
                                 document['duration'],
                                 document['session'],
-                                document['review'],
+                                double.parse(document['discount']),
+                                document['category'],
                                 document['description'],
                               );
                             },
@@ -318,8 +358,9 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
                                               price: document['price'].toString(),
                                               description: document['description'],
                                               duration: document['duration'],
+                                              category: document['category'],
                                               session: document['session'],
-                                              discount: document['discount'],
+                                              discount: document['discount'].toString(),
                                             ),),
                                           );
                                         }, icon: Icon(Icons.edit,

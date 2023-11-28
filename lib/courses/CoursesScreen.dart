@@ -32,7 +32,7 @@ late GestureTapCallback onTap = () {
     void _showCoursesDetails(
         String id, String name,
         String images, double price, String duration,
-        String session, String review, String description) {
+        String session, String review,String categories ,String description) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -73,7 +73,25 @@ late GestureTapCallback onTap = () {
                     ),
                   ],
                 ),
-
+                SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Categorie: ',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        '$categories',
+                        style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,8 +278,6 @@ late GestureTapCallback onTap = () {
                               itemBuilder: (context, index) {
                                 DocumentSnapshot document = snapshot.data!.docs[index];
 
-                                // Ajoutez une condition pour filtrer par catégorie
-                                if (selectedCategory == 'Tous les produits' || document['category'] == selectedCategory) {
                                   return Card(
                                     elevation: 10,
                                     child: Container(
@@ -275,6 +291,7 @@ late GestureTapCallback onTap = () {
                                             document['images'],
                                             document['price'],
                                               document['review'],
+                                              document['categories'],
                                             document['description'],
                                             document['duration'],
                                             document['session']
@@ -338,9 +355,7 @@ late GestureTapCallback onTap = () {
                                       ),
                                     ),
                                   );
-                                } else {
-                                  return Container(); // Retourne un conteneur vide si la catégorie ne correspond pas
-                                }
+
                               },
                             ),
 

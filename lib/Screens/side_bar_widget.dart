@@ -7,6 +7,8 @@ import 'package:elearning_admin_pannel/Screens/manage_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 
+import '../categories/CategoryScreen.dart';
+
 class SideBarWidget{
   
    sideBarMenus(context, selectedRoute){
@@ -21,6 +23,11 @@ class SideBarWidget{
             title: 'Manage Course',
             route: ManageCoursesScreen.id,
             icon: Icons.book_online_rounded,
+          ),
+          AdminMenuItem(
+            title: 'Categorie',
+            route: CategoryScreen.id,
+            icon: Icons.category,
           ),
           AdminMenuItem(
             title: 'Manage items',

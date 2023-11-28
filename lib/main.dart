@@ -15,7 +15,6 @@ void main() async {
   await Firebase.initializeApp(
     options:  FirebaseOptions(
         apiKey: "AIzaSyBs-z5MEP-BJnQSDUv--ZOsL2pDwwd6GQo",
-
         projectId: "elearningapp-6cb37",
         storageBucket: "elearningapp-6cb37.appspot.com",
         messagingSenderId: "515471366120",

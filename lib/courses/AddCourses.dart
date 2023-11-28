@@ -30,9 +30,9 @@ class _AddCourseState extends State<AddCourse> {
   late File file;
   bool _visible = false;
   bool _isButtonVisible = true;
+  bool _isCategorieSelected = false;
+  double _rating = 0;  bool _isConfirmed = false;
 
-  bool _isConfirmed = false;
-  double _rating = 0;
   final _formKey = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -40,6 +40,7 @@ class _AddCourseState extends State<AddCourse> {
   TextEditingController discount = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController duration = TextEditingController();
+  String selectedCategorie="0";
   DateTime _selecteddate = DateTime.now();
   CollectionReference ref = FirebaseFirestore.instance.collection('courses');
 
@@ -54,8 +55,8 @@ class _AddCourseState extends State<AddCourse> {
       'discount': discount.text,
       'price': price.text,
       'duration': duration.text,
+      'category': selectedCategorie,
       'images':downloadUrl,
-
       'timestamp': FieldValue.serverTimestamp(),
       'TeacherID': currentUser?.uid,
       'favourites':[],
@@ -343,7 +344,7 @@ class _AddCourseState extends State<AddCourse> {
 
 
                             TextFormField(
-                              controller: price,
+                              controller: discount,
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
                                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -409,6 +410,53 @@ class _AddCourseState extends State<AddCourse> {
                           ],
                         ),
                       ),
+                  SizedBox(height: 18),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Category selection
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(padding: EdgeInsets.all(8.0)),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance.collection('categories').snapshots(),
+                            builder: (context, snapshot) {
+                              List<DropdownMenuItem> categorieItems = [];
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator();
+                              } else {
+                                final categories = snapshot.data?.docs.reversed.toList();
+                                categorieItems.add(
+                                  const DropdownMenuItem(
+                                    value: "0",
+                                    child: Text('Catégorie sélectionnée'),
+                                  ),
+                                );
+                                for (var category in categories!) {
+                                  categorieItems.add(DropdownMenuItem(
+                                    value: category["libelle"],
+                                    child: Text(category['libelle']),
+                                  ));
+                                }
+                              }
+                              return DropdownButton(
+                                items: categorieItems,
+                                onChanged: (categorieValue) {
+                                  setState(() {
+                                    selectedCategorie = categorieValue;
+                                    _isCategorieSelected = true;
+                                  });
+                                },
+                                value: selectedCategorie,
+                                isExpanded: false,
+                                hint: Text('Sélectionner une catégorie'),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                ],),
                       Padding(padding: const EdgeInsets.all(8.0) ),
                       SizedBox(height: 18),
                       Padding(padding: const EdgeInsets.all(8.0),
