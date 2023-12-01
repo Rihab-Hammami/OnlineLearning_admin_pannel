@@ -8,6 +8,8 @@ import 'package:elearning_admin_pannel/courses/AddCourses.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'lessons/LessonsScreen.dart';
+
 
 
 void main() async {
@@ -44,8 +46,9 @@ class MyApp extends StatelessWidget {
       initialRoute: Splash_screen.id,
       routes: {
         Splash_screen.id:(context)=>Splash_screen(),
-        Login_screen.id:(context)=>Login_screen(),
         Home_screen.id:(context)=>Home_screen(),
+        LoginScreen.id:(context)=>LoginScreen(),
+        LessonsScreen.id: (context) => LessonsScreen(),
         ManageCoursesScreen.id:(context)=>ManageCoursesScreen(),
         ManageItemsScreen.id:(context)=>ManageItemsScreen(),
 

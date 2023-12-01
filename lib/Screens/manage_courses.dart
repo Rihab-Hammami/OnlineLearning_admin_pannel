@@ -1,4 +1,5 @@
 import 'package:elearning_admin_pannel/Screens/side_bar_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
@@ -216,7 +217,9 @@ class _ManageCoursesScreenState extends State<ManageCoursesScreen> {
     FirebaseServices _services = FirebaseServices();
 
     return StreamBuilder<QuerySnapshot>(
-      stream: _services.courses.snapshots(),
+      stream: _services.courses
+          .where('TeacherID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         return
 

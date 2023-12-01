@@ -25,9 +25,14 @@ class SideBarWidget{
             icon: Icons.book_online_rounded,
           ),
           AdminMenuItem(
-            title: 'Categorie',
+            title: 'Manage Categorie',
             route: CategoryScreen.id,
             icon: Icons.category,
+          ),
+          AdminMenuItem(
+            title: 'Manage Lesson',
+            route: ManageItemsScreen.id,
+            icon: Icons.play_lesson,
           ),
           AdminMenuItem(
             title: 'Manage items',

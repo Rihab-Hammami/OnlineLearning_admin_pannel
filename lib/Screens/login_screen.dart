@@ -1,31 +1,25 @@
-import 'dart:js';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elearning_admin_pannel/Screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login_screen extends StatefulWidget {
-  static const String id="login_screen";
+class LoginScreen extends StatefulWidget {
+  static const String id = "login_screen";
 
   @override
-  State<Login_screen> createState() => _Login_screenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _Login_screenState extends State<Login_screen> {
-  bool _isObscure3 = true;
-
+class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
-
   bool visible = false;
-
-  final _formkey = GlobalKey<FormState>();
-
-  final TextEditingController emailController = new TextEditingController(text: "rihab@gmail.com");
-
-  final TextEditingController passwordController = new TextEditingController(text: "12345678");
-
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController =
+  new TextEditingController(text: "rihab@gmail.com");
+  final TextEditingController passwordController =
+  new TextEditingController(text: "12345678");
   final _auth = FirebaseAuth.instance;
 
   @override
@@ -35,27 +29,26 @@ class _Login_screenState extends State<Login_screen> {
         child: Center(
           child: Container(
             width: 800,
-          
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
               border: Border.all(color: Colors.white),
               borderRadius: BorderRadius.circular(10),
-              ),
+            ),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 50,),
-                  Image.asset('assets/images/Online_world.png',height: 150,),
+                  Image.asset('assets/images/Online_world.png', height: 150,),
                   SizedBox(height: 20,),
                   Text(
                     'Sign In',
-                    style: GoogleFonts.robotoCondensed(fontSize:40,fontWeight:FontWeight.bold),
+                    style: GoogleFonts.robotoCondensed(fontSize:40, fontWeight:FontWeight.bold),
                   ),
                   SizedBox(height: 20,),
                   Text(
-                    'Welcome ! Login To Continue Using The App ',
+                    'Welcome! Login To Continue Using The App ',
                     style: GoogleFonts.robotoCondensed(fontSize:20,),
                   ),
                   SizedBox(height: 25,),
@@ -64,12 +57,11 @@ class _Login_screenState extends State<Login_screen> {
                       child: Container(
                         margin: EdgeInsets.all(12),
                         child: Form(
-                          key: _formkey,
+                          key: _formKey,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-            
                               SizedBox(
                                 height: 20,
                               ),
@@ -79,10 +71,8 @@ class _Login_screenState extends State<Login_screen> {
                                   filled: true,
                                   fillColor: Colors.grey[200],
                                   hintText: 'Enter your Email',
-                                  contentPadding: const EdgeInsets.all(18.0), // Adjust the padding to make it taller
-            
+                                  contentPadding: const EdgeInsets.all(18.0),
                                   enabled: true,
-            
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: new BorderSide(color: Colors.grey),
                                     borderRadius: new BorderRadius.circular(20),
@@ -92,7 +82,6 @@ class _Login_screenState extends State<Login_screen> {
                                     borderRadius: new BorderRadius.circular(20),
                                   ),
                                   prefixIcon: Icon(Icons.email),
-            
                                 ),
                                 validator: (value) {
                                   if (value!.length == 0) {
@@ -115,10 +104,10 @@ class _Login_screenState extends State<Login_screen> {
                                 height: 20,
                               ),
                               Container(
-                               // Adjust the width according to your needs
+                                // Adjust the width according to your needs
                                 child: TextFormField(
                                   controller: passwordController,
-                                  obscureText: _isObscure3,
+                                  obscureText: _isObscure,
                                   decoration: InputDecoration(
                                     suffixIcon: IconButton(
                                         icon: Icon(_isObscure
@@ -143,7 +132,6 @@ class _Login_screenState extends State<Login_screen> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     prefixIcon: Icon(Icons.password),
-            
                                   ),
                                   validator: (value) {
                                     RegExp regex = RegExp(r'^.{6,}$');
@@ -162,9 +150,7 @@ class _Login_screenState extends State<Login_screen> {
                                   keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
-            
                               SizedBox(height: 10,),
-                             
                               SizedBox(
                                 height: 20,
                               ),
@@ -173,15 +159,13 @@ class _Login_screenState extends State<Login_screen> {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: MaterialButton(
-                                    onPressed: () {
-                                      /*setState(() {
+                                    onPressed: () async {
+                                      setState(() {
                                         visible = true;
-                                      });*/
-                                      Navigator.pushReplacementNamed(context,Home_screen.id);
-                                      signIn(
+                                      });
+                                      await signIn(
                                           emailController.text, passwordController.text);
                                     },
-            
                                     child: Container(
                                       padding: const EdgeInsets.all(16),
                                       decoration: BoxDecoration(
@@ -203,28 +187,27 @@ class _Login_screenState extends State<Login_screen> {
                                 ),
                               ),
                               SizedBox(height: 20,),
-            
-                              //Text(sign up)
-                              
+                              // Text(sign up)
                               SizedBox(
                                 height: 10,
                               ),
                               Visibility(
-                                  maintainSize: true,
-                                  maintainAnimation: true,
-                                  maintainState: true,
-                                  visible: visible,
-                                  child: Container(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ))),
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                visible: visible,
+                                child: Container(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-            
                 ],
               ),
             ),
@@ -234,51 +217,60 @@ class _Login_screenState extends State<Login_screen> {
     );
   }
 
-   void route() {
-    User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        if (documentSnapshot.get('rool') == "Teacher") {
-          Navigator.pushReplacement(
-            context as BuildContext,
-            MaterialPageRoute(
-              builder: (context) =>  Home_screen(),
-            ),
-          );
-        }else{
-          Navigator.pushReplacement(
-            context as BuildContext,
-            MaterialPageRoute(
-              builder: (context) =>  Home_screen(),
-            ),
-          );
-        }
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
-  }
-
-  void signIn(String email, String password) async {
-    if (_formkey.currentState!.validate()) {
+  Future<void> signIn(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
       try {
         UserCredential userCredential =
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
-        route();
+        await checkUserRole(userCredential.user!, context);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           print('No user found for that email.');
         } else if (e.code == 'wrong-password') {
           print('Wrong password provided for that user.');
         }
+        setState(() {
+          visible = false;
+        });
       }
     }
+  }
+
+  Future<void> checkUserRole(User user, BuildContext context) async {
+    var snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    if (snapshot.exists) {
+      String role = snapshot.get('rool');
+      if (role == 'Teacher') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home_screen(),
+          ),
+        );
+      } else {
+        // Display a toast message indicating access denied.
+        Fluttertoast.showToast(
+          msg: 'Access Denied. You do not have permission to access this app.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } else {
+      print('Document does not exist in the database');
+    }
+
+    setState(() {
+      visible = false;
+    });
   }
 }

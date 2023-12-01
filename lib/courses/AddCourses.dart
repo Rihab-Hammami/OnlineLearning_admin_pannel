@@ -409,6 +409,7 @@ class _AddCourseState extends State<AddCourse> {
                             ),
                           ],
                         ),
+
                       ),
                   SizedBox(height: 18),
                   Row(

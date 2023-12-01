@@ -1,6 +1,7 @@
 import 'package:elearning_admin_pannel/Screens/dashboard_screen.dart';
 import 'package:elearning_admin_pannel/Screens/manage_courses.dart';
 import 'package:elearning_admin_pannel/Screens/manage_items.dart';
+import 'package:elearning_admin_pannel/lessons/LessonsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 
@@ -30,6 +31,11 @@ currentScreen(item){
     case CategoryScreen.id:
       setState(() {
         _selectedScreen=CategoryScreen();
+      });
+      break;
+    case LessonsScreen.id:
+      setState(() {
+        _selectedScreen=LessonsScreen();
       });
     break;
      case ManageItemsScreen.id:
@@ -76,17 +82,22 @@ currentScreen(item){
             icon: Icons.book_online_rounded,
           ),
           AdminMenuItem(
-            title: 'Categorie',
+            title: 'Manage Categorie',
             route: CategoryScreen.id,
             icon: Icons.category,
+          ),
+          AdminMenuItem(
+            title: 'Manage Lesson',
+            route: LessonsScreen.id,
+            icon: Icons.play_lesson,
           ),
           AdminMenuItem(
             title: 'Manage items',
             route: ManageItemsScreen.id,
             icon: Icons.pages_rounded,
           ),
-          
-          
+
+
         ],
         selectedRoute: Home_screen.id,
         onSelected: (item) {
