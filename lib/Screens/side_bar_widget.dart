@@ -29,8 +29,9 @@ class SideBarWidget{
             route: CategoryScreen.id,
             icon: Icons.category,
           ),
+           
           AdminMenuItem(
-            title: 'Manage Lesson',
+            title: 'Manage Lessons',
             route: ManageItemsScreen.id,
             icon: Icons.play_lesson,
           ),

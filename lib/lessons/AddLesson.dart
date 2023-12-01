@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';  // Import File from dart:io
-
 import 'package:elearning_admin_pannel/Screens/home_screen.dart';
 import 'package:elearning_admin_pannel/Screens/manage_items.dart';
 import 'package:elearning_admin_pannel/Screens/side_bar_widget.dart';
@@ -18,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../Screens/manage_courses.dart';
 import '../models/Course.dart';
@@ -120,7 +118,7 @@ class _AddLessonState extends State<AddLesson> {
         .collection('lessons')
         .add(data)
         .then((value) {
-      // Update the lesson document with the lesson ID
+    // Update the lesson document with the lesson ID
       value.update({
         "id": value.id,
       });
@@ -386,7 +384,10 @@ class _AddLessonState extends State<AddLesson> {
                               children: [
                                 Padding(padding: EdgeInsets.all(8.0)),
                                 StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance.collection('courses').snapshots(),
+                                  stream: FirebaseFirestore.instance
+                                  .collection('courses')
+                                  .where('TeacherID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                                  .snapshots(),
                                   builder: (context, snapshot) {
                                     List<DropdownMenuItem> categorieItems = [];
                                     if (!snapshot.hasData) {
@@ -468,26 +469,9 @@ class _AddLessonState extends State<AddLesson> {
     if (_formKey.currentState!.validate()) {
       addLesson(imgUrl,imgUrl2).then((_) {
         // Show a success dialog after successful submission
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Addition successful'),
-              content: Text('Your course has been successfully added.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LessonsScreen()),
-                    );
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LessonsScreen()),
         );
       }).catchError((error) {
         // Handle any errors that occur during submission

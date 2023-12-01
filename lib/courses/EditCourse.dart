@@ -62,6 +62,7 @@ class _EditCourseState extends State<EditCourse> {
     session = TextEditingController(text: widget.session);
     discount = TextEditingController(text: widget.discount.toString());
     duration = TextEditingController(text: widget.duration.toString()) ;
+    
     _reference = FirebaseFirestore.instance.collection('courses').doc(widget.id);
 
     super.initState();
@@ -80,31 +81,7 @@ class _EditCourseState extends State<EditCourse> {
     }
   }
 
-  Future<void> _showSuccessAlert() async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Course modification successful.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   Future<String> uploadImageToFirebaseStorage(Uint8List bytes) async {
     FirebaseStorage fs = FirebaseStorage.instance;
@@ -443,7 +420,7 @@ class _EditCourseState extends State<EditCourse> {
                             //if (Key.currentState?.validate() ?? false){
                             _reference.update(dataToUpdate);
                             // }
-                            await _showSuccessAlert();
+                           
                             Navigator.push(
                               context,
                               MaterialPageRoute(

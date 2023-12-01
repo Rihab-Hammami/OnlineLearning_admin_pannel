@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
 
       },
       debugShowCheckedModeBanner: false,
+    
       home: Scaffold(
         body: Center(child: Container(child: Text("Welcome to flutter web",style: TextStyle(fontSize: 30,color: Colors.blue),),),),
       )

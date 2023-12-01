@@ -19,7 +19,7 @@ class _CategorieWidgetState extends State<CategorieWidget> {
   @override
   Widget build(BuildContext context) {
     FirebaseServices _services = FirebaseServices();
-return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot>(
       stream: _services.categories.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {

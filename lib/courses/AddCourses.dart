@@ -534,7 +534,8 @@ class _AddCourseState extends State<AddCourse> {
               ),
             ),
 
-          ));
+          )
+          );
   }
   bool _isFormFilled() {
     return name.text.isNotEmpty &&
@@ -547,34 +548,14 @@ class _AddCourseState extends State<AddCourse> {
   void _submitData() {
     if (_formKey.currentState!.validate()) {
       addCourse(imgUrl).then((_) {
-        // Show a success dialog after successful submission
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Addition successful'),
-              content: Text('Your course has been successfully added.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => ManageCoursesScreen()),
-                    );
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ManageCoursesScreen()),
         );
       }).catchError((error) {
-        // Handle any errors that occur during submission
         print('Error occurred: $error');
       });
     } else {
-      // Form contains validation errors, do not submit
       print('Form contains validation errors');
     }
   }
