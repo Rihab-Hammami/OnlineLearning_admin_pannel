@@ -31,8 +31,8 @@ class _AddCourseState extends State<AddCourse> {
   bool _visible = false;
   bool _isButtonVisible = true;
   bool _isCategorieSelected = false;
-  double _rating = 0;  bool _isConfirmed = false;
-
+  double _rating = 0;
+  bool _isConfirmed = false;
   final _formKey = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -558,7 +558,7 @@ class _AddCourseState extends State<AddCourse> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => ManageCoursesScreen()),
                     );

@@ -1,6 +1,7 @@
 import 'package:elearning_admin_pannel/Screens/dashboard_screen.dart';
 import 'package:elearning_admin_pannel/Screens/manage_courses.dart';
 import 'package:elearning_admin_pannel/Screens/manage_items.dart';
+import 'package:elearning_admin_pannel/exercices/AddExercice.dart';
 import 'package:elearning_admin_pannel/lessons/LessonsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
@@ -36,6 +37,11 @@ currentScreen(item){
     case LessonsScreen.id:
       setState(() {
         _selectedScreen=LessonsScreen();
+      });
+      break;
+    case AddExercice.id:
+      setState(() {
+        _selectedScreen=AddExercice();
       });
     break;
      case ManageItemsScreen.id:
@@ -89,6 +95,11 @@ currentScreen(item){
           AdminMenuItem(
             title: 'Manage Lesson',
             route: LessonsScreen.id,
+            icon: Icons.play_lesson,
+          ),
+          AdminMenuItem(
+            title: 'Manage Exercice',
+            route: AddExercice.id,
             icon: Icons.play_lesson,
           ),
           AdminMenuItem(

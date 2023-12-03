@@ -73,7 +73,7 @@ class _AddLessonState extends State<AddLesson> {
 
     try {
       FirebaseStorage fs = FirebaseStorage.instance;
-      var snapshot = await fs.ref().child('lessons/$date').putData(fileBytes!);
+      var snapshot = await fs.ref().child('uploads/$date').putData(fileBytes!);
       String downloadUrl = await snapshot.ref.getDownloadURL();
 
       setState(() {
@@ -194,266 +194,268 @@ class _AddLessonState extends State<AddLesson> {
   Widget build(BuildContext context) {
     SideBarWidget _sideBar = SideBarWidget();
     return
-      AdminScaffold(
-          appBar: AppBar(
-            title: Center(child: Text("Add Lesson")),
-            backgroundColor: Colors.grey,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF00B4DB), // #00B4DB color
-                    Color(0xFFC9D6FF), // #C9D6FF color
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+      Material(
+        child: AdminScaffold(
+            appBar: AppBar(
+              title: Center(child: Text("Add Lesson")),
+              backgroundColor: Colors.grey,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF00B4DB), // #00B4DB color
+                      Color(0xFFC9D6FF), // #C9D6FF color
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
+                ),),
+
+            ),
+            sideBar: _sideBar.sideBarMenus(context, ManageCoursesScreen.id),
+
+            body:  Center(
+              child: Container(
+                width: 700,
+
+                padding: const EdgeInsets.all(16),
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
-                ),
-              ),),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                       Container(
+                          width: 300,
+                          height: 350,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.blueAccent),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: _visible
+                                      ? Image.network(
+                                    imgUrl2,
+                                    height: 200,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                  )
+                                      : Container(),
+                                ),
+                                Container(
 
-          ),
-          sideBar: _sideBar.sideBarMenus(context, ManageCoursesScreen.id),
-
-          body:  Center(
-            child: Container(
-              width: 700,
-
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                     Container(
-                        width: 300,
-                        height: 350,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.blueAccent),
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                child: _visible
-                                    ? Image.network(
-                                  imgUrl2,
-                                  height: 200,
-                                  width: 200,
-                                  fit: BoxFit.cover,
-                                )
-                                    : Container(),
-                              ),
-                              Container(
-
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color(0xFF00B4DB), // #00B4DB color
-                                      Color(0xFFC9D6FF), // #C9D6FF color
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF00B4DB), // #00B4DB color
+                                        Color(0xFFC9D6FF), // #C9D6FF color
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                    // Add additional properties for the Container's decoration as needed
                                   ),
-                                  borderRadius: BorderRadius.circular(8),
-                                  // Add additional properties for the Container's decoration as needed
-                                ),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    selectImage();
-                                  },
-                                  child: Text("Select Image"),
-                                  textColor: Colors.white,
-                                  color: Colors.transparent, // Set button's color to transparent to show the gradient background
-                                  elevation: 0, // Remove the button's elevation
-                                  // Add additional properties for the MaterialButton as needed
-                                ),
-                              )
-                            ],
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      selectImage();
+                                    },
+                                    child: Text("Select Image"),
+                                    textColor: Colors.white,
+                                    color: Colors.transparent, // Set button's color to transparent to show the gradient background
+                                    elevation: 0, // Remove the button's elevation
+                                    // Add additional properties for the MaterialButton as needed
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
 
-                      SizedBox(
-                          height: 20.0),
-                      Padding(padding: const EdgeInsets.all(8.0),
-                        child:  Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Name',
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            TextFormField(
-                              controller: name,
-                              decoration: InputDecoration(
-                                hintText: 'Lesson Name',
-                                hintStyle: TextStyle(
-                                  color: Colors.grey[500],
-                                  fontSize: 14,
-
-                                ),
-                                filled: true, // ajouter un fond rempli de couleur
-                                fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
-                                border: OutlineInputBorder( // définir une bordure de rectangle
-                                  borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
-                                  borderSide: BorderSide.none, // supprimer la bordure de ligne
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter the  Name of course!';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          _openFileExplorer();
-                        },
-                        child: Text('Select File'),
-                      ),
-                      SizedBox(height: 20),
-                      pickedFileName != null
-                          ? Text('File picked: $pickedFileName')
-                          : Container(),
-
-                      Padding(padding: const EdgeInsets.all(8.0),
-                        child:
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Duration',
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            TextFormField(
-                              controller: duration,
-                              decoration: InputDecoration(
-                                hintText: 'duration ',
-                                hintStyle: TextStyle(
-                                  color: Colors.grey[500],
-                                  fontSize: 14,
-
-                                ),
-                                filled: true, // ajouter un fond rempli de couleur
-                                fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
-                                border: OutlineInputBorder( // définir une bordure de rectangle
-                                  borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
-                                  borderSide: BorderSide.none, // supprimer la bordure de ligne
-                                ),
-                              ),
-
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter the duration Date !';
-                                }
-                                return null;
-                              },
-
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 18),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Category selection
-                          Column(
+                        SizedBox(
+                            height: 20.0),
+                        Padding(padding: const EdgeInsets.all(8.0),
+                          child:  Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(padding: EdgeInsets.all(8.0)),
-                              StreamBuilder<QuerySnapshot>(
-                                stream: FirebaseFirestore.instance.collection('courses').snapshots(),
-                                builder: (context, snapshot) {
-                                  List<DropdownMenuItem> categorieItems = [];
-                                  if (!snapshot.hasData) {
-                                    return const CircularProgressIndicator();
-                                  } else {
-                                    final categories = snapshot.data?.docs.reversed.toList();
-                                    categorieItems.add(
-                                      const DropdownMenuItem(
-                                        value: "0",
-                                        child: Text('Course selected'),
-                                      ),
-                                    );
-                                    for (var category in categories!) {
-                                      categorieItems.add(DropdownMenuItem(
-                                        value: category["id"],
-                                        child: Text(category['name']),
-                                      ));
-                                    }
+                              Text(
+                                'Name',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 18,
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              TextFormField(
+                                controller: name,
+                                decoration: InputDecoration(
+                                  hintText: 'Lesson Name',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[500],
+                                    fontSize: 14,
+
+                                  ),
+                                  filled: true, // ajouter un fond rempli de couleur
+                                  fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
+                                  border: OutlineInputBorder( // définir une bordure de rectangle
+                                    borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
+                                    borderSide: BorderSide.none, // supprimer la bordure de ligne
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the  Name of course!';
                                   }
-                                  return DropdownButton(
-                                    items: categorieItems,
-                                    onChanged: (categorieValue) {
-                                      setState(() {
-                                        selectedCourse = categorieValue;
-                                        _isCategorieSelected = true;
-                                      });
-                                    },
-                                    value: selectedCourse,
-                                    isExpanded: false,
-                                    hint: Text('Sélectionner une catégorie'),
-                                  );
+                                  return null;
                                 },
                               ),
                             ],
                           ),
-                        ],),
-                      SizedBox(height: 18),
-
-
-
-
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate() && pickedFileName != null) {
-                            _submitData();
-                          } else {
-                            // Handle form validation errors or file not selected
-                          }
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blue),
                         ),
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ElevatedButton(
+                          onPressed: () {
+                            _openFileExplorer();
+                          },
+                          child: Text('Select File'),
                         ),
-                      ),
+                        SizedBox(height: 20),
+                        pickedFileName != null
+                            ? Text('File picked: $pickedFileName')
+                            : Container(),
+
+                        Padding(padding: const EdgeInsets.all(8.0),
+                          child:
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Duration',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 18,
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              TextFormField(
+                                controller: duration,
+                                decoration: InputDecoration(
+                                  hintText: 'duration ',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[500],
+                                    fontSize: 14,
+
+                                  ),
+                                  filled: true, // ajouter un fond rempli de couleur
+                                  fillColor: Colors.grey[200], // définir la couleur de l'arrière-plan
+                                  border: OutlineInputBorder( // définir une bordure de rectangle
+                                    borderRadius: BorderRadius.circular(8.0), // personnaliser le rayon des coins du rectangle
+                                    borderSide: BorderSide.none, // supprimer la bordure de ligne
+                                  ),
+                                ),
+
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the duration Date !';
+                                  }
+                                  return null;
+                                },
+
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 18),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Category selection
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(padding: EdgeInsets.all(8.0)),
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: FirebaseFirestore.instance.collection('courses').snapshots(),
+                                  builder: (context, snapshot) {
+                                    List<DropdownMenuItem> categorieItems = [];
+                                    if (!snapshot.hasData) {
+                                      return const CircularProgressIndicator();
+                                    } else {
+                                      final categories = snapshot.data?.docs.reversed.toList();
+                                      categorieItems.add(
+                                        const DropdownMenuItem(
+                                          value: "0",
+                                          child: Text('Course selected'),
+                                        ),
+                                      );
+                                      for (var category in categories!) {
+                                        categorieItems.add(DropdownMenuItem(
+                                          value: category["id"],
+                                          child: Text(category['name']),
+                                        ));
+                                      }
+                                    }
+                                    return DropdownButton(
+                                      items: categorieItems,
+                                      onChanged: (categorieValue) {
+                                        setState(() {
+                                          selectedCourse = categorieValue;
+                                          _isCategorieSelected = true;
+                                        });
+                                      },
+                                      value: selectedCourse,
+                                      isExpanded: false,
+                                      hint: Text('Sélectionner une catégorie'),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],),
+                        SizedBox(height: 18),
 
 
 
-                      SizedBox(height: 12,),
-                    ],
+
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate() && pickedFileName != null) {
+                              _submitData();
+                            } else {
+                              // Handle form validation errors or file not selected
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.blue),
+                          ),
+                          child: Text(
+                            "Submit",
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                        ),
+
+
+
+                        SizedBox(height: 12,),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-          ));
+            )),
+      );
   }
   bool _isFormFilled() {
     return name.text.isNotEmpty &&

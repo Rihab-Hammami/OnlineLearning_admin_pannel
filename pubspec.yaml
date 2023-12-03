@@ -51,6 +51,8 @@ dependencies:
   fluttertoast: ^8.0.7
   flutter_pdfview: any
   syncfusion_flutter_pdfviewer: ^20.3.0
+  advance_pdf_viewer: ^2.0.0
+  webdev: ^3.0.0
 
 dev_dependencies:
   flutter_test:

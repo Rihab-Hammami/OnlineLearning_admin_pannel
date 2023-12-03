@@ -35,6 +35,11 @@ class SideBarWidget{
             icon: Icons.play_lesson,
           ),
           AdminMenuItem(
+            title: 'Manage Exercice',
+            route: ManageItemsScreen.id,
+            icon: Icons.play_lesson,
+          ),
+          AdminMenuItem(
             title: 'Manage items',
             route: ManageItemsScreen.id,
             icon: Icons.pages_rounded,
