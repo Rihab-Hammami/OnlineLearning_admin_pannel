@@ -168,7 +168,7 @@ class _Exercice_ScreenState extends State<Exercice_Screen> {
               IconButton(
                 icon: const Icon(Icons.edit),
                 iconSize: 20,
-                color: Color.fromARGB(255, 223, 132, 126), // Customize the color of the edit icon
+                color: Colors.green, // Customize the color of the edit icon
                 onPressed: () {
                   // Implement edit functionality
                   Navigator.push(
@@ -227,7 +227,7 @@ class _Exercice_ScreenState extends State<Exercice_Screen> {
 
                           },
                         ),
-                        Divider(thickness: 2),
+
                       ],
                     );
                   }).toList(),

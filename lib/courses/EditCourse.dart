@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elearning_admin_pannel/Screens/side_bar_widget.dart';
@@ -81,20 +82,16 @@ class _EditCourseState extends State<EditCourse> {
     }
   }
 
-  
-
   Future<String> uploadImageToFirebaseStorage(Uint8List bytes) async {
-    FirebaseStorage fs = FirebaseStorage.instance;
-    int date = DateTime.now().millisecondsSinceEpoch;
-    final reference = await fs.ref().child('images/$date.png');
+    // Encode the image bytes to base64
+    String base64Image = base64Encode(bytes);
 
-    // Explicitly set the content type to image/png
-    SettableMetadata metadata = SettableMetadata(contentType: 'image/png');
-    final uploadTask = reference.putData(bytes, metadata);
+    // Create a data URI with the appropriate content type
+    String dataURI = 'data:image/png;base64,$base64Image';
+    // Update the Firestore document with the data URI
+    await _reference.update({'images': dataURI});
 
-    final snapshot = await uploadTask;
-    String imageURL = await snapshot.ref.getDownloadURL();
-    return imageURL;
+    return dataURI;
   }
 
 
@@ -410,7 +407,7 @@ class _EditCourseState extends State<EditCourse> {
                             Map<String, dynamic> dataToUpdate = {
                               'name': Name,
                               'description': Description,
-                              'imageUrl': imageUrl,
+                              'images': imageUrl,
                               'price': Price,
                               'discount': Discount,
                               'session': Session,

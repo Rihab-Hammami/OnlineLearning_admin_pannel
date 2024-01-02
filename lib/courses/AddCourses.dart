@@ -97,8 +97,6 @@ class _AddCourseState extends State<AddCourse> {
         String downloadUrl = await snapshot.ref.getDownloadURL();
         await addCourse(
           downloadUrl,
-
-
         );
         setState(() {
           imgUrl = downloadUrl;

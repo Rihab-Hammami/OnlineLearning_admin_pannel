@@ -54,7 +54,10 @@ dependencies:
   webdev: ^3.0.0
   fluttertoast: ^8.0.8
   flutter_inappwebview: ^5.8.0
-  webview_flutter: ^4.4.2
+  webview_flutter: ^3.0.4
+  random_string: ^2.0.1
+  cached_network_image: any
+  uuid: any
   
 dev_dependencies:
   flutter_test:

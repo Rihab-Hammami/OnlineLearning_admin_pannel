@@ -180,8 +180,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                             IconButton(
                                               icon: const Icon(Icons.edit),
                                               iconSize: 20,
-                                              color: Color.fromARGB(
-                                                  255, 223, 132, 126),
+                                              color: Colors.green,
                                               onPressed: () {
                                                 Navigator.push(
                                               context,
@@ -251,7 +250,6 @@ class _LessonsScreenState extends State<LessonsScreen> {
                                 );
                               },
                             ),
-                            Divider(thickness: 2),
                           ],
                         ),
                       );
